@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -12,22 +11,38 @@ interface ResultsSummaryProps {
 
 export function ResultsSummary({ results }: ResultsSummaryProps) {
   const navigate = useNavigate();
-  
+
   const categories = [
     { name: "Self-Awareness", score: results.selfAwareness, key: "selfAwareness" },
     { name: "Emotional Regulation", score: results.emotionalRegulation, key: "emotionalRegulation" },
     { name: "Decision Making", score: results.decisionMaking, key: "decisionMaking" },
     { name: "Personal Values", score: results.values, key: "values" }
   ];
-  
+
   const getCategoryColor = (score: number) => {
-    if (score >= 40) return "bg-green-500";
-    if (score >= 30) return "bg-blue-500";
-    if (score >= 20) return "bg-yellow-500";
-    if (score >= 10) return "bg-orange-500";
+    if (score >= 200) return "bg-green-500";
+    if (score >= 150) return "bg-blue-500";
+    if (score >= 100) return "bg-yellow-500";
+    if (score >= 50) return "bg-orange-500";
     return "bg-red-500";
   };
-  
+
+  const totalScore =
+    results.selfAwareness + results.emotionalRegulation + results.decisionMaking + results.values;
+  const maxScore = 50 * 4 * 5;
+  const averagePercent = (totalScore / maxScore) * 100;
+
+  let recruitmentRecommendation = "";
+  if (averagePercent >= 80) {
+    recruitmentRecommendation = "Strongly Recommend for Recruitment";
+  } else if (averagePercent >= 65) {
+    recruitmentRecommendation = "Recommend for Recruitment";
+  } else if (averagePercent >= 50) {
+    recruitmentRecommendation = "Consider with Caution";
+  } else {
+    recruitmentRecommendation = "Not Recommended for Recruitment";
+  }
+
   return (
     <div className="max-w-4xl mx-auto fade-in">
       <Card className="bg-white shadow-lg mb-8">
@@ -38,6 +53,23 @@ export function ResultsSummary({ results }: ResultsSummaryProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
+          <Card className="mb-8 shadow-sm border-blue-500 border-2">
+            <CardHeader>
+              <CardTitle className="text-2xl text-blue-600">Recruitment Recommendation</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <span className="text-lg font-semibold">{recruitmentRecommendation}</span>
+                <span className="ml-2 text-gray-600">
+                  (Overall: {Math.round(averagePercent)}%)
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-gray-600">
+                This recommendation is based on the total scores achieved across all assessment categories.
+              </p>
+            </CardContent>
+          </Card>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {categories.map((category) => {
               const percentage = (category.score / 50) * 100;

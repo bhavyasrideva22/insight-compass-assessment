@@ -1,4 +1,3 @@
-
 // Questions for the personality assessment
 export interface Question {
   id: number;
@@ -282,7 +281,37 @@ export const questions: Question[] = [
         score: { selfAwareness: 3, emotionalRegulation: 2, decisionMaking: 4, values: 3 }
       }
     ]
-  }
+  },
+  // Add questions 11–50
+  ...Array.from({ length: 40 }, (_, i) => {
+    const id = i + 11;
+    return {
+      id,
+      text: `Placeholder Question ${id}: How do you respond in common situation ${id}?`,
+      options: [
+        {
+          id: "a",
+          text: "I always remain calm and focused.",
+          score: { selfAwareness: 5, emotionalRegulation: 5, decisionMaking: 4, values: 4 }
+        },
+        {
+          id: "b",
+          text: "I usually try to adapt and seek solutions.",
+          score: { selfAwareness: 4, emotionalRegulation: 4, decisionMaking: 4, values: 3 }
+        },
+        {
+          id: "c",
+          text: "I get a bit stressed but manage okay.",
+          score: { selfAwareness: 3, emotionalRegulation: 3, decisionMaking: 3, values: 2 }
+        },
+        {
+          id: "d",
+          text: "I struggle and need support.",
+          score: { selfAwareness: 2, emotionalRegulation: 1, decisionMaking: 2, values: 1 }
+        }
+      ]
+    };
+  })
 ];
 
 // Helper functions for results interpretation
