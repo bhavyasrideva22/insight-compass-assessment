@@ -13,7 +13,7 @@ const Results = () => {
   }
   
   return (
-    <div className="min-h-screen bg-blue-50 py-10 px-4">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-10 px-4">
       <ResultsSummary results={results} />
     </div>
   );
